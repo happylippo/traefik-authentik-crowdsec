@@ -78,20 +78,62 @@ seinen [ersten Schritten](https://docs.goauthentik.io/install-config/first-steps
 
 ### Anwendung „Traefik Dashboard“ mit Forward Auth anlegen
 
+Die Screenshots zeigen die Einrichtung in Authentik. Die angezeigten Namen und
+Slugs sind Beispiele; verwende in deiner Installation konsistente Werte.
+
 1. Gehe in der Admin-Oberfläche zu **Applications > Applications** und wähle
    **New Application**.
+
+   <p align="center">
+     <img src="docs/images/authentik-forward-auth/01-new-application.png"
+          alt="Authentik: Anwendung und Slug festlegen" width="800">
+     <br>
+     <em>Abbildung 1: Anwendungsname und Slug festlegen.</em>
+   </p>
+
 2. Vergib den Namen **Traefik Dashboard** und einen Slug, zum Beispiel
    `traefik-dashboard`, dann **Next**.
 3. Wähle als Provider-Typ **Proxy Provider**, dann **Next**.
+
+   <p align="center">
+     <img src="docs/images/authentik-forward-auth/02-proxy-provider.png"
+          alt="Authentik: Proxy Provider auswählen" width="800">
+     <br>
+     <em>Abbildung 2: Den Proxy Provider auswählen.</em>
+   </p>
+
 4. Vergib einen Providernamen, lasse die voreingestellten Flows zunächst
    ausgewählt und stelle den Modus auf **Forward auth (single application)**.
+
+   <p align="center">
+     <img src="docs/images/authentik-forward-auth/03-forward-auth-mode.png"
+          alt="Authentik: Forward-Auth-Modus konfigurieren" width="800">
+     <br>
+     <em>Abbildung 3: „Forward Auth (einzelne Anwendung)“ auswählen.</em>
+   </p>
+
 5. Trage als **External host** die vollständige Dashboard-URL ein, zum Beispiel
    `https://traefik.example.com`. Sie muss exakt zum Wert von `TRAEFIK_HOST` in
    `.env` passen.
+
+   <p align="center">
+     <img src="docs/images/authentik-forward-auth/04-external-host.png"
+          alt="Authentik: externe Dashboard-URL eintragen" width="800">
+     <br>
+     <em>Abbildung 4: Die externe URL des Traefik-Dashboards eintragen.</em>
+   </p>
+
 6. Prüfe die Zusammenfassung und wähle **Create Application**.
 7. Gehe zu **Applications > Outposts**, bearbeite den
    **authentik Embedded Outpost** und füge unter **Applications** die Anwendung
    **Traefik Dashboard** hinzu. Speichere die Änderung.
+
+   <p align="center">
+     <img src="docs/images/authentik-forward-auth/05-embedded-outpost.png"
+          alt="Authentik: Anwendung dem Embedded Outpost zuweisen" width="800">
+     <br>
+     <em>Abbildung 5: Die Anwendung dem Embedded Outpost zuweisen.</em>
+   </p>
 
 Der Stack enthält bereits die Traefik-Middleware `authentik@file` und eine
 separate Route für `/outpost.goauthentik.io/`. Öffne danach
@@ -108,7 +150,7 @@ Weise auch diese Anwendung dem Embedded Outpost zu.
 
 Die Authentik-Dokumentation erläutert das Erstellen von
 [Proxy-Providern](https://docs.goauthentik.io/add-secure-apps/providers/proxy/create-proxy-provider/)
-und die [Forward-Auth-Modi](https://docs.goauthentik.io/add-secure-apps/providers/proxy/forward_auth).
+und die [Forward-Auth-Modi](https://docs.goauthentik.io/add-secure-apps/providers/proxy/forward_auth/).
 
 ## Authentik-Docker-Integration
 
