@@ -1,0 +1,49 @@
+services:
+  crowdsec-manager:
+    image: hhftechnology/crowdsec-manager:independent
+    container_name: crowdsec-manager
+    restart: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: ${PROXY_NETWORK_NAME:-proxy}
+      traefik.http.routers.crowdsec-manager.rule: Host(`${CROWDSEC_MANAGER_HOST:-cs.example.de}`)  # Replace with your desired domain
+      traefik.http.routers.crowdsec-manager.entrypoints: websecure
+      traefik.http.routers.crowdsec-manager.middlewares: lan-only@file,authentik@file
+      traefik.http.routers.crowdsec-manager.tls: "true"
+      traefik.http.routers.crowdsec-manager.tls.certresolver: ${SERVICES_TRAEFIK_LABELS_TRAEFIK_CERTRESOLVER:-cloudflare_resolver}
+      traefik.http.routers.crowdsec-manager.tls.domains[0].main: ${TRAEFIK_CERT_DOMAIN}
+      traefik.http.routers.crowdsec-manager.tls.domains[0].sans: ${TRAEFIK_CERT_WILDCARD}
+      traefik.http.routers.crowdsec-manager-authentik-outpost.entrypoints: websecure
+      traefik.http.routers.crowdsec-manager-authentik-outpost.middlewares: lan-only@file
+      traefik.http.routers.crowdsec-manager-authentik-outpost.rule: "Host(`${CROWDSEC_MANAGER_HOST:-cs.example.de}`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      traefik.http.routers.crowdsec-manager-authentik-outpost.priority: "100"
+      traefik.http.routers.crowdsec-manager-authentik-outpost.service: authentik@docker
+      traefik.http.routers.crowdsec-manager-authentik-outpost.tls: "true"
+      traefik.http.routers.crowdsec-manager-authentik-outpost.tls.certresolver: ${SERVICES_TRAEFIK_LABELS_TRAEFIK_CERTRESOLVER:-cloudflare_resolver}
+      traefik.http.routers.crowdsec-manager-authentik-outpost.tls.domains[0].main: ${TRAEFIK_CERT_DOMAIN}
+      traefik.http.routers.crowdsec-manager-authentik-outpost.tls.domains[0].sans: ${TRAEFIK_CERT_WILDCARD}
+      traefik.http.services.crowdsec-manager.loadbalancer.server.port: "8080"
+    environment:
+      - PORT=8080
+      - ENVIRONMENT=production
+      - CONFIG_DIR=/app/config
+      - DATABASE_PATH=/app/data/settings.db
+      - INCLUDE_CROWDSEC=true
+      - DOCKER_HOST=tcp://socket-proxy-manager:2375
+    volumes:
+      - ${ABSOLUTE_PATH}/data/crowdsec-manager/config:/app/config
+      - ${ABSOLUTE_PATH}/data/crowdsec-manager/logs:/app/logs
+      - ${ABSOLUTE_PATH}/data/crowdsec-manager:/app/data
+    networks:
+      proxy:
+        ipv4_address: ${CROWDSEC_MANAGER_PROXY_IPV4:-172.31.128.30}
+        ipv6_address: ${CROWDSEC_MANAGER_PROXY_IPV6:-fd00:1:be:a::30}
+      crowdsec_manager_socket_proxy:
+        ipv4_address: ${CROWDSEC_MANAGER_SOCKET_PROXY_IPV4:-172.31.193.20}
+        ipv6_address: ${CROWDSEC_MANAGER_SOCKET_PROXY_IPV6:-fd00:1:be:e::20}
+    depends_on:
+      crowdsec:
+        condition: service_healthy
+      socket-proxy-manager:
+        condition: service_healthy
+

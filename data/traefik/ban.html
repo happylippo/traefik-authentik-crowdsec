@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Zugriff pausiert</title>
+  <style>
+    :root {
+      font-family: ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+      color: #253047;
+      background: #fff3e9;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 1.25rem;
+      background:
+        radial-gradient(circle at 14% 18%, #ffd8be 0 5rem, transparent 5.1rem),
+        radial-gradient(circle at 88% 84%, #d7e7ff 0 7rem, transparent 7.1rem),
+        #fff3e9;
+    }
+
+    main {
+      width: min(100%, 36rem);
+      padding: clamp(1.5rem, 5vw, 3rem);
+      text-align: center;
+      background: #fff;
+      border: 3px solid #253047;
+      border-radius: 1.5rem;
+      box-shadow: 8px 8px 0 #253047;
+    }
+
+    .icon {
+      display: block;
+      margin-bottom: .75rem;
+      font-size: 5rem;
+      line-height: 1;
+    }
+
+    .eyebrow {
+      margin: 0 0 .5rem;
+      color: #9a4b2c;
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 8vw, 3rem);
+      line-height: 1.05;
+    }
+
+    p {
+      max-width: 28rem;
+      margin: 1rem auto 0;
+      color: #526074;
+      line-height: 1.65;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: .65rem 1rem;
+      color: #75351f;
+      background: #ffe7d8;
+      border: 2px dashed #c56c48;
+      border-radius: 999px;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    footer {
+      margin-top: 1.75rem;
+      color: #7b8797;
+      font-size: .78rem;
+    }
+
+    footer a { color: inherit; }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="icon" aria-hidden="true">🚧</span>
+    <p class="eyebrow">CrowdSec sagt kurz Stopp</p>
+    <h1>Hier ist gerade Netz-Pause.</h1>
+    <p>
+      Unsere digitale Türsteherin hat ungewöhnlichen Verkehr bemerkt und den Zugang
+      vorübergehend gebremst. Das ist kein Urteil über deinen Charakter – höchstens
+      über die Geschwindigkeit deiner letzten Klicks.
+    </p>
+    <p>
+      Bitte warte einen Moment und versuche es später erneut. Wenn du glaubst, dass
+      du hier falsch gelandet bist, wende dich an die Betreiber dieser Website.
+    </p>
+    <div class="badge">Der Toaster darf heute auch nicht rein.</div>
+    <footer>Geschützt mit <a href="https://crowdsec.net/" target="_blank" rel="noopener noreferrer">CrowdSec</a> · digitale Baustelle, echte Regeln</footer>
+  </main>
+</body>
+</html>

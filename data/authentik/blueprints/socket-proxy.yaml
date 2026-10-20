@@ -1,0 +1,15 @@
+version: 1
+
+metadata:
+  name: Docker Socket Proxy
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+
+entries:
+  - model: authentik_outposts.dockerserviceconnection
+    identifiers:
+      name: Local Docker connection
+    attrs:
+      local: false
+      url: http://socket-proxy-authentik:2375
+

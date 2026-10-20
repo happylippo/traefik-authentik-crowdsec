@@ -1,0 +1,68 @@
+services:
+  traefik:
+    image: traefik:v3.7
+    container_name: traefik
+    depends_on:
+      socket-proxy:
+        condition: service_healthy
+      crowdsec:
+        condition: service_healthy
+    env_file: ${ABSOLUTE_PATH}/data/traefik/.env
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 10s
+      timeout: 1s
+      retries: 3
+      start_period: 10s
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: ${PROXY_NETWORK_NAME:-proxy}
+      traefik.http.routers.traefik-dashboard.entrypoints: websecure
+      traefik.http.routers.traefik-dashboard.middlewares: authentik@file,lan-only@file
+      traefik.http.routers.traefik-dashboard.rule: "Host(`${TRAEFIK_HOST:-traefik.localhost}`)"
+      traefik.http.routers.traefik-dashboard.tls: "true"
+      traefik.http.routers.traefik-dashboard.tls.certresolver: ${SERVICES_TRAEFIK_LABELS_TRAEFIK_CERTRESOLVER:-cloudflare_resolver}
+      traefik.http.routers.traefik-dashboard.tls.domains[0].main: ${TRAEFIK_CERT_DOMAIN}
+      traefik.http.routers.traefik-dashboard.tls.domains[0].sans: ${TRAEFIK_CERT_WILDCARD}
+      traefik.http.routers.traefik-dashboard.service: api@internal
+      traefik.http.routers.traefik-dashboard-authentik-outpost.entrypoints: websecure
+      traefik.http.routers.traefik-dashboard-authentik-outpost.middlewares: lan-only@file
+      traefik.http.routers.traefik-dashboard-authentik-outpost.rule: "Host(`${TRAEFIK_HOST:-traefik.localhost}`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      traefik.http.routers.traefik-dashboard-authentik-outpost.priority: "100"
+      traefik.http.routers.traefik-dashboard-authentik-outpost.service: authentik@docker
+      traefik.http.routers.traefik-dashboard-authentik-outpost.tls: "true"
+      traefik.http.routers.traefik-dashboard-authentik-outpost.tls.certresolver: ${SERVICES_TRAEFIK_LABELS_TRAEFIK_CERTRESOLVER:-cloudflare_resolver}
+      traefik.http.routers.traefik-dashboard-authentik-outpost.tls.domains[0].main: ${TRAEFIK_CERT_DOMAIN}
+      traefik.http.routers.traefik-dashboard-authentik-outpost.tls.domains[0].sans: ${TRAEFIK_CERT_WILDCARD}
+      traefik.http.services.traefik-dashboard.loadbalancer.sticky.cookie.httpOnly: "true"
+      traefik.http.services.traefik-dashboard.loadbalancer.sticky.cookie.secure: "true"
+      traefik.http.routers.pingweb.rule: "PathPrefix(`/ping`)"
+      traefik.http.routers.pingweb.service: ping@internal
+      traefik.http.routers.pingweb.entrypoints: websecure
+    networks:
+      crowdsec:
+        ipv4_address: ${TRAEFIK_CROWDSEC_IPV4:-172.31.64.20}
+        ipv6_address: ${TRAEFIK_CROWDSEC_IPV6:-fd00:1:be:b::20}
+      proxy:
+        ipv4_address: ${TRAEFIK_PROXY_IPV4:-172.31.128.10}
+        ipv6_address: ${TRAEFIK_PROXY_IPV6:-fd00:1:be:a::10}
+      socket_proxy:
+        ipv4_address: ${TRAEFIK_SOCKET_PROXY_IPV4:-172.31.192.30}
+        ipv6_address: ${TRAEFIK_SOCKET_PROXY_IPV6:-fd00:1:be:c::30}
+    ports:
+      - "443:443"
+      - "443:443/udp"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${ABSOLUTE_PATH}/data/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ${ABSOLUTE_PATH}/data/traefik/dynamic_conf:/etc/traefik/dynamic_conf:ro
+      - ${ABSOLUTE_PATH}/data/traefik/certs/acme.json:/etc/traefik/acme.json
+      - ${ABSOLUTE_PATH}/data/traefik/certs/acme_cloudflare.json:/etc/traefik/acme_cloudflare.json
+      - ${ABSOLUTE_PATH}/data/traefik/certs/acme_desec.json:/etc/traefik/acme_desec.json
+      - ${ABSOLUTE_PATH}/data/traefik/ban.html:/ban.html:ro
+      - ${ABSOLUTE_PATH}/data/traefik/captcha.html:/captcha.html:ro
+      - ${ABSOLUTE_PATH}/data/traefik/logs:/var/log/traefik
+

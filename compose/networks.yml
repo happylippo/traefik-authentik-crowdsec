@@ -1,0 +1,53 @@
+networks:
+  authentik_socket_proxy:
+    name: ${AUTHENTIK_SOCKET_PROXY_NETWORK_NAME:-authentik_socket_proxy}
+    driver: bridge
+    internal: true
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: ${AUTHENTIK_SOCKET_PROXY_NETWORK_SUBNET:-172.31.194.0/24}
+        - subnet: ${AUTHENTIK_SOCKET_PROXY_NETWORK_IPV6_SUBNET:-fd00:1:be:f::/64}
+  proxy:
+    name: ${PROXY_NETWORK_NAME:-proxy}
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: ${PROXY_NETWORK_SUBNET:-172.31.128.0/24}
+        - subnet: ${PROXY_NETWORK_IPV6_SUBNET:-fd00:1:be:a::/64}
+  crowdsec:
+    name: ${CROWDSEC_NETWORK_NAME:-crowdsec}
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: ${CROWDSEC_NETWORK_SUBNET:-172.31.64.0/24}
+        - subnet: ${CROWDSEC_NETWORK_IPV6_SUBNET:-fd00:1:be:b::/64}
+  socket_proxy:
+    name: ${SOCKET_PROXY_NETWORK_NAME:-socket_proxy}
+    driver: bridge
+    internal: true
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: ${SOCKET_PROXY_NETWORK_SUBNET:-172.31.192.0/24}
+        - subnet: ${SOCKET_PROXY_NETWORK_IPV6_SUBNET:-fd00:1:be:c::/64}
+  crowdsec_manager_socket_proxy:
+    name: ${CROWDSEC_MANAGER_SOCKET_PROXY_NETWORK_NAME:-crowdsec_manager_socket_proxy}
+    driver: bridge
+    internal: true
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: ${CROWDSEC_MANAGER_SOCKET_PROXY_NETWORK_SUBNET:-172.31.193.0/24}
+        - subnet: ${CROWDSEC_MANAGER_SOCKET_PROXY_NETWORK_IPV6_SUBNET:-fd00:1:be:e::/64}
+  authentik_internal:
+    name: ${AUTHENTIK_NETWORK_NAME:-authentik_internal}
+    driver: bridge
+    internal: true
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: ${AUTHENTIK_NETWORK_SUBNET:-172.31.0.0/24}
+        - subnet: ${AUTHENTIK_NETWORK_IPV6_SUBNET:-fd00:1:be:d::/64}

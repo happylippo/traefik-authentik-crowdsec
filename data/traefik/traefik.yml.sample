@@ -1,0 +1,88 @@
+api:
+  dashboard: true
+
+core:
+  strictTLSOptions: true
+
+metrics:
+  prometheus:
+    addRoutersLabels: true
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "admin@example.com"
+      storage: "/etc/traefik/acme.json"
+      keyType: EC384
+      tlsChallenge: {}
+  cloudflare_resolver:
+    acme:
+      email: "admin@example.com"
+      storage: "/etc/traefik/acme_cloudflare.json"
+      keyType: EC384
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
+  desec_resolver:
+    acme:
+      email: "admin@example.com"
+      storage: "/etc/traefik/acme_desec.json"
+      keyType: EC384
+      dnsChallenge:
+        provider: desec
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
+
+entryPoints:
+  ping:
+    address: ":88"
+  websecure:
+    address: ":443"
+    # __CLOUDFLARE_FORWARDED_HEADERS_WEBSECURE__
+    http3: {}
+    http:
+      aliasHeadersStrategy: delete
+      middlewares:
+        - default@file
+        - crowdsec@file
+
+ping:
+  entryPoint: ping
+
+global:
+  checknewversion: true
+  sendanonymoususage: false
+
+experimental:
+  plugins:
+    bouncer:
+      moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
+      version: v1.8.1
+
+providers:
+  docker:
+    endpoint: "tcp://socket-proxy:2375"
+    exposedByDefault: false
+    network: "socket_proxy"
+  file:
+    directory: "/etc/traefik/dynamic_conf"
+    watch: true
+  providersThrottleDuration: 10s
+
+log:
+  level: INFO
+  filePath: "/var/log/traefik/traefik.log"
+  format: json
+  maxSize: 10
+  maxBackups: 10
+  maxAge: 14
+
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  format: json
+  bufferingSize: 50
+  fields:
+    defaultMode: keep
