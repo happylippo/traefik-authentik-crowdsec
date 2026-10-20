@@ -164,7 +164,7 @@ Authentik erwartet für diese Verbindung eine HTTP-URL. Siehe die [Authentik-Dok
 
 Der Authentik-Proxy erlaubt Schreibzugriffe auf die Docker-Container-API, die für das Erstellen und Entfernen von Outpost-Containern benötigt werden. Andere API-Bereiche wie `exec` und Netzwerkverwaltung sind gesperrt. Trotzdem ist Docker-Containerverwaltung privilegiert: Ein entsprechend berechtigter Container kann weitreichende Änderungen am Docker-Host auslösen.
 
-Der CrowdSec Manager erhält über seinen eigenen Proxy ebenfalls weitreichende Docker-Rechte einschließlich `exec`. Behandle ihn als privilegierten Dienst. Beide Proxys sind intern erreichbar und veröffentlichen keinen Host-Port.
+Der CrowdSec Manager erhält über seinen eigenen Proxy Zugriff auf Container-Logs (`ALLOW_LOGS`) und weitreichende Docker-Rechte einschließlich `exec`. Behandle ihn als privilegierten Dienst. Beide Proxys sind intern erreichbar und veröffentlichen keinen Host-Port.
 
 ## Netzwerk und Adressen
 
