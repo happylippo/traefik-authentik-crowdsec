@@ -91,6 +91,7 @@ services:
     environment:
       INFO: "1"
       CONTAINERS: "1"
+      ALLOW_LOGS: "1"
       EXEC: "1"
       NETWORKS: "1"
       POST: "1"
