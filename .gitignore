@@ -67,6 +67,7 @@ acme_desec.json
 acme.json
 !.sample
 
+docs/
 data/crowdsec/config/
 data/crowdsec/data/
 data/crowdsec/acquis.yaml
