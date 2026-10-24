@@ -68,6 +68,7 @@ acme.json
 !.sample
 
 docs/
+docs/images/authentik-forward-auth
 data/crowdsec/config/
 data/crowdsec/data/
 data/crowdsec/acquis.yaml
