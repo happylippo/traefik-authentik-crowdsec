@@ -42,7 +42,7 @@ services:
       traefik.docker.network: ${PROXY_NETWORK_NAME:-proxy}
       traefik.http.routers.authentik.rule: "Host(`${AUTHENTIK_HOST:-auth.localhost}`)"
       traefik.http.routers.authentik.entrypoints: websecure
-      traefik.http.routers.authentik.middlewares: lan-only@file
+      traefik.http.routers.authentik.middlewares: default@file,lan-only@file
       traefik.http.routers.authentik.tls: "true"
       traefik.http.routers.authentik.service: authentik
       traefik.http.routers.authentik.tls.certresolver: ${SERVICES_TRAEFIK_LABELS_TRAEFIK_CERTRESOLVER:-cloudflare_resolver}

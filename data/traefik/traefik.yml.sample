@@ -46,7 +46,6 @@ entryPoints:
     http:
       aliasHeadersStrategy: delete
       middlewares:
-        - default@file
         - crowdsec@file
 
 ping:

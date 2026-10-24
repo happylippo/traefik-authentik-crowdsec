@@ -8,13 +8,13 @@ services:
       traefik.docker.network: ${PROXY_NETWORK_NAME:-proxy}
       traefik.http.routers.crowdsec-manager.rule: Host(`${CROWDSEC_MANAGER_HOST:-cs.example.de}`)  # Replace with your desired domain
       traefik.http.routers.crowdsec-manager.entrypoints: websecure
-      traefik.http.routers.crowdsec-manager.middlewares: lan-only@file,authentik@file
+      traefik.http.routers.crowdsec-manager.middlewares: default@file,lan-only@file,authentik@file
       traefik.http.routers.crowdsec-manager.tls: "true"
       traefik.http.routers.crowdsec-manager.tls.certresolver: ${SERVICES_TRAEFIK_LABELS_TRAEFIK_CERTRESOLVER:-cloudflare_resolver}
       traefik.http.routers.crowdsec-manager.tls.domains[0].main: ${TRAEFIK_CERT_DOMAIN}
       traefik.http.routers.crowdsec-manager.tls.domains[0].sans: ${TRAEFIK_CERT_WILDCARD}
       traefik.http.routers.crowdsec-manager-authentik-outpost.entrypoints: websecure
-      traefik.http.routers.crowdsec-manager-authentik-outpost.middlewares: lan-only@file
+      traefik.http.routers.crowdsec-manager-authentik-outpost.middlewares: default@file,lan-only@file
       traefik.http.routers.crowdsec-manager-authentik-outpost.rule: "Host(`${CROWDSEC_MANAGER_HOST:-cs.example.de}`) && PathPrefix(`/outpost.goauthentik.io/`)"
       traefik.http.routers.crowdsec-manager-authentik-outpost.priority: "100"
       traefik.http.routers.crowdsec-manager-authentik-outpost.service: authentik@docker

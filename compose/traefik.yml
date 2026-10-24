@@ -18,7 +18,7 @@ services:
       traefik.enable: "true"
       traefik.docker.network: ${PROXY_NETWORK_NAME:-proxy}
       traefik.http.routers.traefik-dashboard.entrypoints: websecure
-      traefik.http.routers.traefik-dashboard.middlewares: authentik@file,lan-only@file
+      traefik.http.routers.traefik-dashboard.middlewares: default@file,authentik@file,lan-only@file
       traefik.http.routers.traefik-dashboard.rule: "Host(`${TRAEFIK_HOST:-traefik.localhost}`)"
       traefik.http.routers.traefik-dashboard.tls: "true"
       traefik.http.routers.traefik-dashboard.tls.certresolver: ${SERVICES_TRAEFIK_LABELS_TRAEFIK_CERTRESOLVER:-cloudflare_resolver}
@@ -26,7 +26,7 @@ services:
       traefik.http.routers.traefik-dashboard.tls.domains[0].sans: ${TRAEFIK_CERT_WILDCARD}
       traefik.http.routers.traefik-dashboard.service: api@internal
       traefik.http.routers.traefik-dashboard-authentik-outpost.entrypoints: websecure
-      traefik.http.routers.traefik-dashboard-authentik-outpost.middlewares: lan-only@file
+      traefik.http.routers.traefik-dashboard-authentik-outpost.middlewares: default@file,lan-only@file
       traefik.http.routers.traefik-dashboard-authentik-outpost.rule: "Host(`${TRAEFIK_HOST:-traefik.localhost}`) && PathPrefix(`/outpost.goauthentik.io/`)"
       traefik.http.routers.traefik-dashboard-authentik-outpost.priority: "100"
       traefik.http.routers.traefik-dashboard-authentik-outpost.service: authentik@docker
