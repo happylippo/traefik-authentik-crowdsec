@@ -26,7 +26,6 @@ services:
       - ${ABSOLUTE_PATH}/data/crowdsec/config:/etc/crowdsec
       - ${ABSOLUTE_PATH}/data/crowdsec/data:/var/lib/crowdsec/data
       - ${ABSOLUTE_PATH}/data/crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml:ro
-      - ${ABSOLUTE_PATH}/data/crowdsec/allowlist.txt:/etc/crowdsec/allowlist.txt:ro
       - ${ABSOLUTE_PATH}/data/crowdsec/appsec.yaml:/etc/crowdsec/acquis.d/appsec.yaml:ro
       - ${ABSOLUTE_PATH}/data/traefik/logs:/var/log/traefik:ro
       - /var/log/auth.log:/var/log/auth.log:ro
