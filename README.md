@@ -1,6 +1,9 @@
 # Traefik, Authentik und CrowdSec
 
-Ein lokaler Docker-Compose-Stack für HTTPS-Routing, zentrale Anmeldung und Schutz vor unerwünschtem Webverkehr. Der Stack basiert auf [happylippo/traefik-crowdsec-stack](https://github.com/happylippo/traefik-crowdsec-stack) und ergänzt ihn um Authentik.
+Ein lokaler Docker-Compose-Stack für HTTPS-Routing, zentrale Anmeldung und Schutz vor unerwünschtem Webverkehr.
+
+Light-Version des Stacks ohne Authentik und Crowdsec-Manager und mit http-basic-auth [happylippo/traefik-crowdsec](https://github.com/happylippo/traefik-crowdsec)
+
 
 ## Funktionsweise des Stacks
 
