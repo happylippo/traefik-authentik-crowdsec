@@ -85,7 +85,7 @@
 <text x="112" y="878" class="name" font-size="16">Docker-Daemon</text><text x="112" y="900" class="tiny">Container-API</text>
 <rect x="477" y="842" width="340" height="82" rx="16" fill="#eff6ff" stroke="#93c5fd" class="card"/>
 <text x="501" y="871" class="name" font-size="16">Getrennte Socket-Proxys</text>
-<text x="501" y="897" class="tiny">Traefik/CrowdSec · Authentik · Manager</text>
+<text x="501" y="897" class="tiny">Traefik · Authentik · Manager</text>
 <path d="M348 883H471" class="controlflow"/>
 <rect x="962" y="842" width="354" height="82" rx="16" fill="#f8fafc" stroke="#cbd5e1" class="card"/>
 <text x="986" y="871" class="name" font-size="16">Interne Dienste</text>
