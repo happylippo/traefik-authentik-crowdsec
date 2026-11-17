@@ -2,9 +2,6 @@ services:
   crowdsec:
     image: crowdsecurity/crowdsec:${CROWDSEC_TAG:-latest}
     container_name: crowdsec
-    depends_on:
-      socket-proxy:
-        condition: service_healthy
     env_file: ${ABSOLUTE_PATH}/data/crowdsec/.env
     healthcheck:
       test: ["CMD", "cscli", "version"]
@@ -16,9 +13,6 @@ services:
       crowdsec:
         ipv4_address: ${CROWDSEC_IPV4:-172.31.64.10}
         ipv6_address: ${CROWDSEC_IPV6:-fd00:1:be:b::10}
-      socket_proxy:
-        ipv4_address: ${CROWDSEC_SOCKET_PROXY_IPV4:-172.31.192.20}
-        ipv6_address: ${CROWDSEC_SOCKET_PROXY_IPV6:-fd00:1:be:c::20}
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -30,4 +24,3 @@ services:
       - ${ABSOLUTE_PATH}/data/traefik/logs:/var/log/traefik:ro
       - /var/log/auth.log:/var/log/auth.log:ro
       - /var/log/syslog:/var/log/syslog:ro
-
