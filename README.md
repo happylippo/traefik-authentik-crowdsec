@@ -21,7 +21,7 @@ Die Grafik zeigt den Weg einer Anfrage: Traefik übernimmt TLS und Routing. Gesc
 | Authentik | Identity Provider mit Server, Worker und PostgreSQL |
 | CrowdSec | Erkennung und Abwehr anhand von Traefik-Logs, einschließlich AppSec/WAF |
 | CrowdSec Manager | Weboberfläche zur Verwaltung von CrowdSec |
-| Socket-Proxys | Getrennte Docker-API-Zugänge für Traefik/CrowdSec, Authentik und CrowdSec Manager |
+| Socket-Proxys | Getrennte Docker-API-Zugänge für Traefik, Authentik und CrowdSec Manager; CrowdSec selbst benötigt keinen Docker-API-Zugriff |
 
 Die Compose-Konfiguration liegt in `compose/` und wird über [`docker-compose.yml`](docker-compose.yml) zusammengeführt.
 
