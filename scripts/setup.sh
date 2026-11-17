@@ -80,6 +80,12 @@ copy_sample() {
 
 copy_sample data/traefik/traefik.yml.sample data/traefik/traefik.yml
 copy_sample data/crowdsec/.env.sample data/crowdsec/.env
+
+# CrowdSec reads mounted log files and does not need Docker API access.
+# Remove the legacy setting from existing installations as well.
+sed -i '/^[[:space:]]*DOCKER_HOST=/d' data/crowdsec/.env
+# These CrowdSec-to-socket-proxy addresses are no longer used.
+sed -i '/^CROWDSEC_SOCKET_PROXY_IPV[46]=/d' .env
 copy_sample data/crowdsec/acquis.yaml.sample data/crowdsec/acquis.yaml
 copy_sample data/crowdsec/appsec.yaml.sample data/crowdsec/appsec.yaml
 copy_sample data/crowdsec/crs-plugins/custom/http-version-before.conf data/crowdsec/data/crs-plugins/custom/http-version-before.conf
